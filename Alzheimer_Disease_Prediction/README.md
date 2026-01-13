@@ -1,23 +1,37 @@
-# 🧠 Alzheimer's Disease Prediction
+# Alzheimer’s Disease Prediction System 🧠
+
+Alzheimer’s disease doesn’t only affect patients — it deeply impacts families, caregivers, and entire communities.  
+Early detection can play a crucial role in slowing disease progression and improving quality of life.
+
+This project focuses on building a machine learning system to predict Alzheimer’s disease using patient health and lifestyle data, and deploying it as an interactive web application.
+
+---
 
 ## Problem Statement
-Alzheimer’s Disease is not only a medical condition but a life-changing challenge for patients and their families. Early detection can play a crucial role in improving care, planning, and quality of life.
+Alzheimer’s disease is often diagnosed at advanced stages, where treatment options are limited.  
+The goal of this project is to develop a classification model that assists in early detection using structured medical data.
 
-The goal of this project is to build a machine learning–based classification system that predicts the likelihood of Alzheimer’s Disease using clinical and lifestyle data. To make the solution more accessible, the model was deployed as an interactive web application for real-time predictions.
+---
 
 ## Dataset
-- Source: Kaggle
-- Samples: 2,149
-- Features: 35
-- Target Variable: Diagnosis (Binary Classification)
+- Source: Kaggle  
+- Type: Structured medical & lifestyle dataset  
+- Target Variable: Alzheimer’s Disease Diagnosis  
 
-## Models Used
-- Logistic Regression
-- Random Forest
-- Gradient Boosting
-- XGBoost
+---
 
-## Results
+## Workflow
+1. Data Cleaning & Handling Missing Values  
+2. Exploratory Data Analysis (EDA)  
+3. Feature Encoding & Scaling  
+4. Model Training  
+5. Model Evaluation  
+6. Web Application Deployment using Streamlit  
+
+---
+
+## Models & Performance
+
 | Model | Accuracy |
 |------|----------|
 | Logistic Regression | 0.81 |
@@ -25,14 +39,24 @@ The goal of this project is to build a machine learning–based classification s
 | Gradient Boosting | **0.95** |
 | XGBoost | 0.94 |
 
-Gradient Boosting achieved the best overall performance with Precision, Recall, and F1-score of 0.95.
+**Best Model:** Gradient Boosting  
+**Precision / Recall / F1-score:** 0.95  
+
+---
+
+## Key Insights
+- Ensemble models significantly outperformed traditional models.
+- Gradient Boosting achieved the best balance between precision and recall.
+- Proper feature engineering had a strong impact on model performance.
+
+---
 
 ## Web Application
-The model was deployed using Streamlit, allowing users to input patient information and receive real-time predictions.
+The trained model was deployed using **Streamlit**, allowing real-time interaction with predictions through a user-friendly interface.
 
-## Links
-- Kaggle Notebook: [View Notebook](https://www.kaggle.com/code/esraamoh7med/alzheimer-disease-prediction)
-- Web App Demo: [Try the App](https://alzheimer-prediction-app-ntgegk9kgzxqx8ku5yamgu.streamlit.app/)
-- GitHub Notebook: [alzheimer.ipynb](https://github.com/Esraa-MOhamed7/Data-Science-Portfolio/blob/main/Alzheimer_Disease_Prediction/Alzheimer's%20Disease%20Dataset%20-checkpoint.ipynb)
-- Streamlit App Code [app.py](https://github.com/Esraa-MOhamed7/Data-Science-Portfolio/blob/main/Alzheimer_Disease_Prediction/Alzheimer%20Prediction.py)
+---
 
+## Project Links
+- Notebook: [alzheimer.ipynb](alzheimer.ipynb)
+- Streamlit App Code: [app.py](app.py)
+- Demo Video: LinkedIn
