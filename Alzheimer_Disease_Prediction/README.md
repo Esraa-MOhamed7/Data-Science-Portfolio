@@ -34,4 +34,5 @@ The model was deployed using Streamlit, allowing users to input patient informat
 - Kaggle Notebook: [View Notebook](https://www.kaggle.com/code/esraamoh7med/alzheimer-disease-prediction)
 - Web App Demo: [Try the App](https://alzheimer-prediction-app-ntgegk9kgzxqx8ku5yamgu.streamlit.app/)
 - GitHub Notebook: [alzheimer.ipynb](https://github.com/Esraa-MOhamed7/Data-Science-Portfolio/blob/main/Alzheimer_Disease_Prediction/Alzheimer's%20Disease%20Dataset%20-checkpoint.ipynb)
+- Streamlit App Code [app.py](https://github.com/Esraa-MOhamed7/Data-Science-Portfolio/blob/main/Alzheimer_Disease_Prediction/Alzheimer%20Prediction.py)
 
