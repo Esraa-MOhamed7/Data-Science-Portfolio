@@ -57,6 +57,6 @@ The trained model was deployed using **Streamlit**, allowing real-time interacti
 ---
 
 ## Project Links
-- Notebook: [alzheimer.ipynb](alzheimer.ipynb)
+- Notebook: [alzheimer.ipynb](https://github.com/Esraa-MOhamed7/Data-Science-Portfolio/blob/main/Alzheimer_Disease_Prediction/Alzheimer's%20Disease%20Dataset%20-checkpoint.ipynb)
 - Streamlit App Code: [app.py](app.py)
 - Demo Video: LinkedIn
