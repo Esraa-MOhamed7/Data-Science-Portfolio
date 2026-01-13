@@ -70,7 +70,7 @@ An interactive **Streamlit Web App** was developed to visualize energy consumpti
 ---
 
 ## 🔗 Project Links
-- Kaggle Notebook: [View Notebook](https://www.kaggle.com/code/esraamoh7med/alzheimer-disease-prediction)
+- Kaggle Notebook: [View Notebook](https://www.kaggle.com/code/esraamoh7med/hourly-energy-demand-forecasting)
 - Web App Demo: [Try the App](https://hourly-energy-demand-forecasting-rubwwegrx7zehfdbaqpc6q.streamlit.app/)
 
 ##  Tech Stack
