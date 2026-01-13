@@ -59,4 +59,4 @@ The trained model was deployed using **Streamlit**, allowing real-time interacti
 ## Project Links
 - Notebook: [alzheimer.ipynb](https://github.com/Esraa-MOhamed7/Data-Science-Portfolio/blob/main/Alzheimer_Disease_Prediction/Alzheimer's%20Disease%20Dataset%20-checkpoint.ipynb)
 - Streamlit App Code: [app.py](https://github.com/Esraa-MOhamed7/Data-Science-Portfolio/blob/main/Alzheimer_Disease_Prediction/Alzheimer%20Prediction.py)
-- Demo Video: LinkedIn
+- Demo Video (LinkedIn): [Watch Here](https://www.linkedin.com/posts/esraa-mohamed-481545357_machinelearning-datascience-healthcareai-activity-7376625499814510596-FSTq?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFjkFGEBgOasy4Bn3a9eAU5i91fj7GZhNfQ)
