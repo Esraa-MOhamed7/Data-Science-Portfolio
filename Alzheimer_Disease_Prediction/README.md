@@ -31,6 +31,6 @@ Gradient Boosting achieved the best overall performance with Precision, Recall, 
 The model was deployed using Streamlit, allowing users to input patient information and receive real-time predictions.
 
 ## Links
-- Kaggle Notebook: ![https://www.kaggle.com/code/esraamoh7med/alzheimer-disease-prediction]
-- Web App Demo: ![https://alzheimer-prediction-app-ntgegk9kgzxqx8ku5yamgu.streamlit.app/]
+- Kaggle Notebook: [View Notebook](https://www.kaggle.com/code/esraamoh7med/alzheimer-disease-prediction)
+- Web App Demo: [Try the App](https://alzheimer-prediction-app-ntgegk9kgzxqx8ku5yamgu.streamlit.app/)
 
