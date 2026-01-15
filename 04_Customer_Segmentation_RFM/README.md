@@ -79,12 +79,9 @@ All visualizations are saved inside the `images/` folder.
 
 ---
 
-
----
-
 ## Kaggle Notebook
 You can view the full interactive notebook on Kaggle here:  
-👉 **[Kaggle Notebook Link – Click to Open](https://www.kaggle.com/code/esraamoh7med/stroke-risk-prediction)**
+👉 **[Kaggle Notebook Link – Click to Open](https://www.kaggle.com/code/esraamoh7med/customer-segmentation-with-rfm-analysis)**
 
 ---
 
