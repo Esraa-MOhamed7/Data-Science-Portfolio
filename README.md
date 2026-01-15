@@ -41,9 +41,6 @@ Each project demonstrates:
 - Similarity-based approach  
 - Personalized movie suggestions  
 
-📌 **Notebook:**  
-🔗 Kaggle Notebook: *(add link)*  
-
 ---
 
 ### 04️⃣ Customer Segmentation
@@ -96,5 +93,5 @@ Each project demonstrates:
 ---
 
 ## 🔗 Connect with Me
-LinkedIn: *(www.linkedin.com/in/esraa-mohamed-481545357)*  
+[LinkedIn](https://www.linkedin.com/in/esraa-mohamed-481545357) 
 
