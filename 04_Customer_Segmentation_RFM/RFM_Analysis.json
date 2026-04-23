@@ -1,0 +1,599 @@
+{
+  "name": "RFM_Analysis",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "14DfkZnmSQSjD4JsfJ17_wN8MiINmZBtl",
+          "mode": "list",
+          "cachedResultName": "RFM",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/14DfkZnmSQSjD4JsfJ17_wN8MiINmZBtl"
+        },
+        "event": "fileCreated",
+        "options": {
+          "fileType": "all"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2624,
+        -768
+      ],
+      "id": "399846c8-6b40-4968-b88a-f5da281120d3",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ID9mYGHbdVvGeCVH",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3bdfcc80-edbf-485a-ba98-61ac0fa743dc",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": ".csv",
+              "operator": {
+                "type": "string",
+                "operation": "endsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2448,
+        -576
+      ],
+      "id": "863aac82-74b4-4399-a551-5e9457cedb98",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -2240,
+        -720
+      ],
+      "id": "6ab90730-a908-424a-85bc-6978173a3859",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ID9mYGHbdVvGeCVH",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/rfm-analysis",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1968,
+        -688
+      ],
+      "id": "18f25b09-34ca-4e5f-b42b-c300d86f9cdc",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "chatId": "6219789935",
+        "text": "=⚠️ Alert!  There are {{ $json.segments_count['At Risk'] }} customers at risk.  \nPlease take action immediately.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1136,
+        -512
+      ],
+      "id": "88b3a7a9-5b85-4eb3-8445-4cd6d0b0f75a",
+      "name": "Send a text message",
+      "webhookId": "26541954-56e4-46b7-af51-cce4efc4b465",
+      "credentials": {
+        "telegramApi": {
+          "id": "Cdmf7ovWuz4Nid1W",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "mamlaktm@gmail.com",
+        "subject": "Alert",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -1152,
+        -752
+      ],
+      "id": "ccc8cbe4-5a83-4e0d-bdbd-28c0891e4a2a",
+      "name": "Send a message",
+      "webhookId": "8a934f33-39be-4c41-a3b0-b4ec0a11c0b2",
+      "notesInFlow": false,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ghxYg4RMMplGSKtT",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are a BI Data Assistant for an RFM Analysis project. Your role is to help management understand the high-level health of our customer segments.\n\nYour Knowledge Base:\nYou have access to a Google Sheet containing analysis snapshots with these columns:\n\nDate: The specific timestamp when the analysis was performed.\n\nTotal Customers: The total customer base at that time.\n\nAt Risk: The number of customers in the 'At Risk' segment.\nChampions: The number of our most valuable customers.\n\nRevenue At Risk: The potential monetary loss from the 'At Risk' segment.\n\nGuidelines for Interaction:\nFocus on Trends: When asked, compare the current row's data with previous dates to show if 'At Risk' numbers are increasing or if 'Revenue At Risk' is dropping.\n\nFinancial Impact: If asked about business risks, prioritize explaining the Revenue At Risk value.\nStrategic Advice: For 'At Risk' customers, suggest retention campaigns. For 'Champions', suggest loyalty rewards.\n\nLimitations: If asked about a specific customer name or ID, explain that you currently only have access to aggregated segment totals and not individual customer details."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -2144,
+        -1200
+      ],
+      "id": "f9e1823b-74ca-48cd-adb6-9ef06f59379d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -2592,
+        -1184
+      ],
+      "id": "041a98b7-53c1-431f-b2c3-dc1912ec2d7d",
+      "name": "When chat message received",
+      "webhookId": "9d996019-caee-4af6-b1bc-1f11461831b8"
+    },
+    {
+      "parameters": {
+        "model": "moonshotai/kimi-k2-instruct-0905",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -2176,
+        -976
+      ],
+      "id": "ef02d8d7-fc12-47fa-8314-cfe9c93fc50f",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "ZjQDwqvD7TRCBjcW",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $now.toMillis() }}",
+        "contextWindowLength": 50
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -2064,
+        -960
+      ],
+      "id": "8ae240c7-15c3-4139-ac53-6877600d8c38",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7412e051-e349-4a8f-90b2-55e41735dd74",
+              "leftValue": "={{ $json.revenue_by_segment['At Risk'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1440,
+        -496
+      ],
+      "id": "3fc7b85b-4e8b-4db8-8bc9-a797ab63d8d9",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Total Customers: {{$json[\"total_customers\"]}}\n\nSegments:\n{{JSON.stringify($json[\"segments_count\"], null, 2)}}\n\nRevenue:\n{{JSON.stringify($json[\"revenue_by_segment\"], null, 2)}}\n\nAt Risk Customers:\n{{ $json.segments_count['At Risk'] }}\n\nSample Customers:\n{{JSON.stringify($json[\"sample_customers\"], null, 2)}}",
+        "options": {
+          "systemMessage": "You are a business analyst.\n\nCreate a professional RFM report.\n\nInclude:\n- Summary of segments\n- Revenue insights\n- Risk analysis\n- Mention sample customers as examples\n\nMake it:\n- Clear\n- Structured\n- With emojis\n- Actionable"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1504,
+        -752
+      ],
+      "id": "a400c6ef-434f-4487-a27d-a9085ce66de9",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": "moonshotai/kimi-k2-instruct-0905",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -1488,
+        -608
+      ],
+      "id": "949c4fca-2576-4f94-a5c6-76d817d2ade5",
+      "name": "Groq Chat Model1",
+      "credentials": {
+        "groqApi": {
+          "id": "ZjQDwqvD7TRCBjcW",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1utOl0bFR4UOF3WhbbBLC-CrUUoCxCTf4_T4oaPdJBvw",
+          "mode": "list",
+          "cachedResultName": "RFM_Analysis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1utOl0bFR4UOF3WhbbBLC-CrUUoCxCTf4_T4oaPdJBvw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1utOl0bFR4UOF3WhbbBLC-CrUUoCxCTf4_T4oaPdJBvw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "At Risk": "={{ $json.segments_count['At Risk'] }}",
+            "Total Customers": "={{ $json.total_customers }}",
+            "Champions": "={{ $json.segments_count.Champions }}",
+            "Revenue At Risk": "={{ $json.revenue_by_segment['At Risk'] }}",
+            "Date": "={{ $now }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Customers",
+              "displayName": "Total Customers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "At Risk",
+              "displayName": "At Risk",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Champions",
+              "displayName": "Champions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Revenue At Risk",
+              "displayName": "Revenue At Risk",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Revenue",
+              "displayName": "Total Revenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1568,
+        -1040
+      ],
+      "id": "d49d5bff-6da1-4499-afb1-32b48b809c54",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sm8R4xhh0u7Li53A",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1utOl0bFR4UOF3WhbbBLC-CrUUoCxCTf4_T4oaPdJBvw",
+          "mode": "list",
+          "cachedResultName": "RFM_Analysis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1utOl0bFR4UOF3WhbbBLC-CrUUoCxCTf4_T4oaPdJBvw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1utOl0bFR4UOF3WhbbBLC-CrUUoCxCTf4_T4oaPdJBvw/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        -1920,
+        -992
+      ],
+      "id": "3911e26e-6339-4193-a09a-81e6c3914366",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Sm8R4xhh0u7Li53A",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "ee14d893-0b89-40ae-a80f-137b3de21798",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "48d46c614b914bab99394e1880f5f7559f97d66d3a9add7afab8eb65907ea6d3"
+  },
+  "id": "GHfBTVjRsIBiABcd",
+  "tags": []
+}
